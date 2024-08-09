@@ -36,3 +36,6 @@ void miningGame(int, Weapon, int speed);
 
 // Enemy combat game
 void enemyCombat();
+
+// Memory game with 3-5 tries
+void memory();

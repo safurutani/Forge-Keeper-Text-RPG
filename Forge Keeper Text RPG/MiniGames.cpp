@@ -7,6 +7,7 @@
 #include <atomic>
 #include <cstdlib>
 #include <ctime>
+#include <unordered_set>
 
 using namespace std;
 
@@ -16,11 +17,15 @@ void clearConsole() {
     DWORD dwSize;
     DWORD dwWritten;
     COORD coord = { 0, 0 };
-
+    
+    // Get the current console screen buffer info
     GetConsoleScreenBufferInfo(hConsole, &csbi);
     dwSize = csbi.dwSize.X * csbi.dwSize.Y;
 
+    // Fill the line with spaces
     FillConsoleOutputCharacter(hConsole, ' ', dwSize, coord, &dwWritten);
+
+    // Reset cursor to given coordinates
     SetConsoleCursorPosition(hConsole, coord);
 }
 
@@ -35,15 +40,24 @@ void miningGame(const int barLength, Weapon pickaxe, int speed) {
     srand(static_cast<unsigned>(time(0)));
     int hitSpots = 10 / pickaxe.getDamage();  // Ensure at least one hit spot
     int hitsLeft = hitSpots;
+    int hitSpot;
     vector<char> miningBar(barLength, '-');
 
-    for (int i = 0; i < hitSpots; ++i) {
-        int hitspot = rand() % barLength;
-        miningBar[hitspot] = '#';
+    // Use unordered set for storing unique values only
+    unordered_set<int> uniqueHitSpots;
+
+    // Keep generating random numbers until the set is full
+    while(uniqueHitSpots.size() < hitSpots) {
+        hitSpot = rand() % barLength;
+        uniqueHitSpots.insert(hitSpot);
     }
 
+    // Fill the mining bar with the hit spots (#)
+    for (int pos : uniqueHitSpots) {
+        miningBar[pos] = '#';
+    }
     clearConsole();
-    cout << "Press Enter to strike with your pickaxe when ^ is on the # spot." << endl;
+    cout << "Press Enter to strike with your pickaxe when ^ is under the # spot." << endl;
 
     int pointerPos = 0;
     atomic<bool> stopPointer(false);
@@ -51,7 +65,6 @@ void miningGame(const int barLength, Weapon pickaxe, int speed) {
 
     while (hitsLeft > 0) {
         stopPointer = false;
-        pointerPos = 0;
 
         // Thread to move the pointer automatically
         thread pointerThread([&]() {
@@ -60,17 +73,19 @@ void miningGame(const int barLength, Weapon pickaxe, int speed) {
                 setCursorPosition(0, 2);
 
                 for (int i = 0; i < barLength; ++i) {
-                    cout << miningBar[i];
-                }
-                cout << endl;
-                for (int i = 0; i < barLength; ++i) {
                     if (i == pointerPos) {
-                        cout << "^";
+                        cout << "V";
                     }
                     else {
                         cout << " ";
                     }
                 }
+                cout << endl;
+                for (int i = 0; i < barLength; ++i) {
+                    cout << miningBar[i];
+                }
+                
+                
                 cout.flush();
 
                 this_thread::sleep_for(chrono::milliseconds(speed));
@@ -98,11 +113,13 @@ void miningGame(const int barLength, Weapon pickaxe, int speed) {
         // Check if the pointer is on a hit spot
         if (miningBar[lockedPointerPos] == '#') {
             cout << "Perfect strike!" << endl;
+            this_thread::sleep_for(chrono::milliseconds(1000));
             miningBar[lockedPointerPos] = '-';
             hitsLeft--;
         }
         else {
             cout << "Missed!" << endl;
+            this_thread::sleep_for(chrono::milliseconds(1000));
         }
 
         // Print final state of the mining bar
@@ -110,10 +127,8 @@ void miningGame(const int barLength, Weapon pickaxe, int speed) {
             cout << miningBar[i] << " ";
         }
         cout << endl;
-
-        pointerPos = 0;
     }
-
+    
     clearConsole();
     cout << "Mining finished." << endl;
 }
