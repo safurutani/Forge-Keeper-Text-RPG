@@ -14,6 +14,8 @@
 
 using namespace std;
 
+// Clear line from cursor position to end
+void clearLine();
 // Number combo guess
 int unlockChest(Player& player);
 
@@ -27,3 +29,10 @@ bool riddle(Player& player);
 int rockPaperScissors(Player& player);
 
 // Quiz game (like how many times a letter appeared or like names or smth idk
+int quiz();
+
+// Mining mini game
+void miningGame(int, Weapon, int speed);
+
+// Enemy combat game
+void enemyCombat();

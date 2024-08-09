@@ -5,39 +5,29 @@
 #include "GameManager.h"
 #include "Npc.h"
 #include "Story.h"
+#include "MiniGames.h"
 
 using namespace std;
 
 int main()
 {
-    int selection;
     string name;
-    do {
-        cout << "Welcome, Forge Keeper! \n\nIt is time to start your journey, but first what is your name: ";
-        cin >> name;
-        cout << endl;
-        cout << "------------------------------------------------------------------------------" << endl;
-        cout << "------------------------------------------------------------------------------" << endl;
 
-        // Initialize player singleton with provided name
-        Player&  player = Player::getInstance(name);
+    cout << "*Welcome, Forge Keeper!*\n\n*It is time to start your journey, but first what is your name*: ";
+    cin >> name;
+    cout << endl;
+    cout << "------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------------------------------------------------" << endl;
 
+    // Initialize player singleton with provided name
+    Player&  player = Player::getInstance(name);
+    miningGame(12, Weapon("Stone pickaxe", 3, 100), 600);
+    /*
         introduction(player);
-
-        cin >> selection;
-        switch (selection) {
-        case 1:
-            forgeOptions();
-            break;
-        case 2:
-            townSquareOptions();
-            break;
-        case 3:
-            forestOptions();
-            break;
-        }
-    } while (selection != '99');
-
+        learnForge();
+        introTownSquare();
+    */
+    
     return 0;
 }
 

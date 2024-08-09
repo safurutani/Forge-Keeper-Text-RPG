@@ -13,5 +13,8 @@
 #include <cctype>
 #include <iomanip>
 
-void clickToContinue();
+void clickToContinue(string singleOption = "continue");
+
 void introduction(Player& player);
+void learnForge();
+void introTownSquare();
