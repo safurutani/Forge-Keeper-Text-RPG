@@ -11,7 +11,8 @@ Player& Player::getInstance(const string& name) {
 	return *instance;
 }
 Player::Player(const string& name) : name(name), health(100), gold(0) {
-	inventory.emplace_back(new Item("Wood Hammer"));
+	inventory.emplace_back(new Weapon("Wood Hammer", 1));
+	inventory.emplace_back(new Weapon("Bronze Sword", 3));
 }
 
 void Player::addItem(Item* item, int quantity) {
@@ -69,7 +70,12 @@ void Player::displayInventory() const {
 string Player::getName() const {
 	return name;
 }
-
+void Player::setName(string newName) {
+	name = newName;
+}
+int Player::getHealth() const{
+	return health;
+}
 void Player::displayHealth() const {
 	cout << "Health: " << health << "/100";
 }
@@ -83,6 +89,9 @@ void Player::decreaseHealth(int dmg) {
 	cout << "You lost " << dmg << " hp. (" << health << "/100)" << endl;
 }
 
+int Player::getGold() const {
+	return gold;
+}
 void Player::displayGold() const {
 	cout << "Gold: " << gold << endl;
 }

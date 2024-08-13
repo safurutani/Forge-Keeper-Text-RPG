@@ -1,20 +1,25 @@
 #pragma once
 
-#include "Story.h"
 #include "Item.h"
 #include "Player.h"
 #include "Weapon.h"
-#include "Location.h"
-#include "GameManager.h"
-#include "Npc.h"
+#include "MiniGames.h"
 #include <iostream>
 #include <string>
 #include <vector>
 #include <cctype>
 #include <iomanip>
 
+void clearConsole();
 void clickToContinue(string singleOption = "continue");
 
 void introduction(Player& player);
 void learnForge();
 void introTownSquare();
+void firstMines();
+void leftMines();
+void straightMines();
+void rightMines();
+void firstForest();
+void gnomeInteraction();
+void firstGeneralStore();

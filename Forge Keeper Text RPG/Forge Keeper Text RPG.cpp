@@ -1,9 +1,7 @@
 #include "Item.h"
 #include "Player.h"
 #include "Weapon.h"
-#include "Location.h"
 #include "GameManager.h"
-#include "Npc.h"
 #include "Story.h"
 #include "MiniGames.h"
 
@@ -19,15 +17,14 @@ int main()
     cout << "------------------------------------------------------------------------------" << endl;
     cout << "------------------------------------------------------------------------------" << endl;
 
-    // Initialize player singleton with provided name
-    Player&  player = Player::getInstance(name);
-    miningGame(12, Weapon("Stone pickaxe", 3, 100), 600);
+    Player& player = Player::getInstance();
+    player.setName(name);
+    enemyCombat("HOUND", 2, 10);
     /*
-        introduction(player);
-        learnForge();
-        introTownSquare();
+    introduction(player);
+    learnForge();
+    introTownSquare();
     */
-    
     return 0;
 }
 

@@ -17,8 +17,9 @@ public:
 	Item();
 	Item(const string& name);
 	Item(const string& name, const string& description);
+	virtual ~Item() = default;
 
-	string getName() const;
+	virtual string getName() const;
 	string getDescription() const;
 	int getQuantity() const;
 	void addQuantity(int num);

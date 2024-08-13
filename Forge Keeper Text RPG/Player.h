@@ -24,16 +24,19 @@ private:
 public:
 
 	string getName() const;
+	void setName(string newName);
 	static Player& getInstance(const string& name="Traveler");
 	vector<Item*> getInventory();
 	void displayInventory() const;
 	void addItem(Item* item, int quantity);
 	void removeItem(Item* item, int quantity);
 	
+	int getHealth() const;
 	void displayHealth() const;
 	void increaseHealth(int hp);
 	void decreaseHealth(int hp);
 
+	int getGold() const;
 	void displayGold() const;
 	void increaseGold(int gold);
 	void decreaseGold(int gold);

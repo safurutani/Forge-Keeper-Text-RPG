@@ -6,7 +6,6 @@
 #include <vector>
 #include <cctype>
 #include <iomanip>
-using namespace std;
 
 class Weapon : public Item
 {
@@ -16,11 +15,8 @@ private:
 	vector<string> aspects;
 public:
 	Weapon();
-	Weapon(const string& name, int damage, int durability);
-	Weapon(const string& name, int damage, int durability, vector<string> aspects); 
+	Weapon(const string& name, int damage);
+	Weapon(const string& name, int damage, vector<string> aspects); 
 
 	int getDamage() const;
-	int getDurability() const;
-	void decreaseDurability(int num);
-	void increaseDurability(int num);
 };
