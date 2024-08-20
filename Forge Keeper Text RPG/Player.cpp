@@ -12,25 +12,22 @@ Player& Player::getInstance(const string& name) {
 }
 Player::Player(const string& name) : name(name), health(100), gold(0) {
 	inventory.emplace_back(new Weapon("Wood Hammer", 1));
-	inventory.emplace_back(new Weapon("Bronze Sword", 3));
 }
 
 void Player::addItem(Item* item, int quantity) {
-	// Find the item in the inventory
-	auto itemLocation = find_if(inventory.begin(), inventory.end(),
-		[&](Item* invItem) { return invItem->isEqualToItem(*item); });
-
-	if (itemLocation != inventory.end()) {
-		// Item found, update quantity
-		(*itemLocation)->addQuantity(quantity);
+	for (auto& invItem : inventory) {
+		
+		if (invItem->getName() == item->getName()) {
+			invItem->addQuantity(quantity);
+			return;
+		}
 	}
-	else {
-		// Item not found, add new item to inventory
-		inventory.push_back(new Item(*item));
-		inventory.back()->addQuantity(quantity);
-	}
+	Item* tempItem = new Item(*item);
+	tempItem->setQuantity(quantity);
+	inventory.push_back(tempItem);
 	// Print item added
 	cout << "[Gained " << quantity << " " << item->getName() << "]" << endl << endl;
+	return;
 }
 
 void Player::removeItem(Item* item, int quantity) {
@@ -41,16 +38,16 @@ void Player::removeItem(Item* item, int quantity) {
 	if (itemLocation != inventory.end()) {
 		// Item found, update quantity
 		(*itemLocation)->subtractQuantity(quantity);
-		if ((*itemLocation)->getQuantity() <= 0) {
-			delete* itemLocation;  // Remove item from inventory if quantity is 0 or less
+		if ((*itemLocation)->getQuantity() <= 0) {	
 			inventory.erase(itemLocation);
 		}
 		// Print item removed
 		cout << "[Removed " << quantity << " " << item->getName() << "]" << endl << endl;
 	}
 	else {
+		inventory.push_back(item);
 		// Item not found
-		cout << "You don't have a " << item->getName() << ". No item removed." << endl<< endl;
+		cout << item->getName() << " is not in your inventory. No item removed." << endl<< endl;
 	}
 }
 
@@ -59,10 +56,12 @@ vector<Item*> Player::getInventory() {
 }
 
 void Player::displayInventory() const {
-	cout << "Item                Qty " << endl << "------------------------" << endl;
+	int count = 1;
+	cout << "Item                   Qty " << endl << "---------------------------" << endl;
 	for (const auto& it : inventory) {
-		cout << left <<  setw(20) << it -> getName() 
+		cout << count << ") " << left << setw(20) << it->getName()
 			<< setw(4) << it -> getQuantity() << endl;
+		count++;
 	}
 	cout << endl;
 }
@@ -82,10 +81,16 @@ void Player::displayHealth() const {
 
 void Player::increaseHealth(int heal) {
 	health += heal;
+	if (health > 100) {
+		health = 100;
+	}
 	cout << "You healed for " << heal << " hp. (" << health << "/100)" << endl;
 }
 void Player::decreaseHealth(int dmg) {
 	health -= dmg;
+	if (health < 0) {
+		health = 0;
+	}
 	cout << "You lost " << dmg << " hp. (" << health << "/100)" << endl;
 }
 
@@ -100,6 +105,7 @@ void Player::increaseGold(int i) {
 	gold += i;
 	cout << "You gained " << i << " gold!" << endl;
 	displayGold();
+	cout << endl;
 }
 
 void Player::decreaseGold(int j) {

@@ -247,16 +247,21 @@ bool enemyCombat(string name, int dmg, int hp) {
     int enemyHealth = hp;
     int num = 1;
     int choice;
+    int healChoice;
     vector<Weapon*> weapList;
 
     Weapon* weapChoice;
-    cout << name << " ENCOUNTER" << endl
+    cout << endl << name << " ENCOUNTER" << endl
         << string(name.size() + 10, '-') << endl;
+
+    // List weapons to choose from
     for (Item* item : player.getInventory()) {
-        // Attempt dynamic cast of item into a weapon - success means weap will be non null
+        // Attempt dynamic cast of item into a weapon
         Weapon* weap = dynamic_cast<Weapon*>(item);
+        // Weap will be non null
         if (weap) {
-            cout << num << ") " << left << setw(20) << weap->getName() << "    " << "Dmg: " << weap->getDamage() << endl;
+            cout << num << ") " << left << setw(20) << weap->getName() 
+                << "    " << "Dmg: " << weap->getDamage() << endl;
             weapList.push_back(weap);
             num++;
         }
@@ -271,7 +276,8 @@ bool enemyCombat(string name, int dmg, int hp) {
         // Display enemy and player names/health
         cout << left << setw(20) << name << setw(20) << player.getName() << endl
             << "Health: " << enemyHealth << "/" << hp << "       "
-            << "Health: " << player.getHealth() << "/" << hp << endl << endl;
+            << "Health: " << player.getHealth() << "/100" << endl << endl;
+        // Waits for player to either attack or flee - healing does not use up a turn
         do {
             cout << "1) Attack" << endl
                 << "2) Heal" << endl
@@ -280,32 +286,76 @@ bool enemyCombat(string name, int dmg, int hp) {
             cin >> action;
             switch (action) {
             case 1:
-                cout << "Your " << weapChoice->getName() << " does " << weapChoice->getDamage() << " damage to the " << name << endl;
+                cout << "*Your " << weapChoice->getName() << " does " << weapChoice->getDamage()
+                    << " damage to the " << name << "*" << endl;
                 enemyHealth -= weapChoice->getDamage();
+                turnOver = true;
                 break;
             case 2: {
                 vector<HealingItem*> healingItems;
-                // Check for healing items in inventory
-                for (Item* item : player.getInventory()) {
-                    // Attempt dynamic cast of item into a weapon - success means weap will be non null
-                    HealingItem* hItem = dynamic_cast<HealingItem*>(item);
-                    if (hItem) {
-                        cout << num << ") " << left << setw(20) << hItem->getName() << "    " << "Recovers: " << hItem->getHeal() << " hp" << endl;
-                        healingItems.push_back(hItem);
-                        num++;
+                if (player.getHealth() == 100) {
+                    cout << "*Your health is already full*" << endl;
+                }
+                else {
+                    // Reset from when choosing weapon
+                    num = 1;
+                    // Check for healing items in inventory
+                    for (Item* item : player.getInventory()) {
+                        // Attempt dynamic cast of item into a healing item - success means hItem will be non null
+                        HealingItem* hItem = dynamic_cast<HealingItem*>(item);
+                        if (hItem) {
+                            cout << num << ") " << left << setw(20) << hItem->getName() 
+                                << "    " << "Recovers: " << hItem->getHeal() << " hp" 
+                                << "    " << "Qty: " << hItem->getQuantity() << endl;
+                            healingItems.push_back(hItem);
+                            num++;
+                        }
+                    }
+                    if (healingItems.size() == 0) {
+                        cout << endl << "*You do not have any healing items*" << endl;
+                    }
+                    else {
+                        HealingItem* hItem;
+                        cout << endl << "Choice: ";
+                        cin >> healChoice;
+                        hItem = healingItems.at(healChoice - 1);
+
+                        // Heal the designated amount and remove from inventory
+                        player.increaseHealth(hItem->getHeal());
+                        player.removeItem(hItem, 1);
+
+                        // Reset the list of healing items
+                        healingItems.clear();
                     }
                 }
+                
                 break;
             }
             case 3:
+                cout << "*You retreat in a cowardly fashion and get away before any more harm could befall you*" << endl;
                 return false;
             default:
                 break;
             }
         } while (!turnOver);
         
-    } while (player.getHealth() > 0 || enemyHealth > 0);
-    
+        // Enemy still alive, continue loop
+        if (enemyHealth > 0) {
+            cout << endl << "*" << name << " attacks and does " << dmg << " damage to you*" << endl;
+            player.decreaseHealth(dmg);
+            clickToContinue();
+        }
+        else {
+            cout << "*" << name << " lost all its health*" << endl
+                << "*You sucessfully defeated the " << name << "!*" << endl;
+            return true;
+        }
+    } while (player.getHealth() > 0 && enemyHealth > 0);
+    // Player died, failed the combat
+    ////////////////////////////////////////
+    // Add inventory loss or gold penalty //
+    ////////////////////////////////////////
+    cout << "*The " << name << " has bested you. You died*" << endl;
     return false;
 }
 

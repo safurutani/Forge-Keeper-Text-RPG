@@ -3,7 +3,7 @@ RequestBoard* RequestBoard::instance = nullptr;
 
 RequestBoard::RequestBoard() {
 	requests.push_back(Request(1, "Sir Henry of the Terra Guard",
-		"We also have a resident merchant who can sell you finished goods at the General Store, but the raw materials you'll have to source yourself.\n", 100));
+		"I have shattered my previous blade in a duel and need to restore my honor.\nI need a blade much stronger than the copper one I once wielded.\n", 100));
 }
 RequestBoard& RequestBoard::getInstance() {
 	static RequestBoard instance;

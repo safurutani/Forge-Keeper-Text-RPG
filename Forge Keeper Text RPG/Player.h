@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "Item.h"
+#include "HealingItem.h"
 #include "Weapon.h"
 #include <iostream>
 #include <algorithm>

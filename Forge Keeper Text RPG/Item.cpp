@@ -1,10 +1,13 @@
 #include "Item.h"
-using namespace std;
 
-Item::Item() : name(""), quantity(0), description("") {}
-Item::Item(const string& name) : name(name), quantity(0), description("") {}
+Item::Item() : name(""), quantity(1), description("") {}
+Item::Item(const string& name) : name(name), quantity(1), description("") {}
+Item::Item(const string& name, int qty) : name(name), quantity(qty) {}
 Item::Item(const string& name, const string& description) 
-	: name(name), quantity(0), description(description) {}
+	: name(name), quantity(1), description(description) {}
+Item::Item(const string& name, const string& description, int qty)
+	: name(name), quantity(qty), description(description){}
+
 
 bool Item::isEqualToItem(Item& other) const{
 	return name == other.getName();
@@ -18,6 +21,10 @@ string Item::getDescription() const {
 	return description;
 }
 
+void Item::setDescription(string newDescription) {
+	description = newDescription;
+}
+
 int Item::getQuantity() const {
 	return quantity;
 }
@@ -25,8 +32,15 @@ int Item::getQuantity() const {
 void Item::addQuantity(int a) {
 	quantity += a;
 }
-
+void Item::setQuantity(int newQuantity) {
+	quantity = newQuantity;
+}
 void Item::subtractQuantity(int b) {
-	quantity -= b;
+	if (quantity - b < 0) {
+		quantity = 0;
+	}
+	else {
+		quantity -= b;
+	}
 }
 

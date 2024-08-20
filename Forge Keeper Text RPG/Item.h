@@ -16,13 +16,17 @@ private:
 public:
 	Item();
 	Item(const string& name);
+	Item(const string& name, int qty);
 	Item(const string& name, const string& description);
+	Item(const string& name, const string& description, int qty);
 	virtual ~Item() = default;
 
 	virtual string getName() const;
 	string getDescription() const;
+	void setDescription(string);
 	int getQuantity() const;
 	void addQuantity(int num);
+	void setQuantity(int newQuantity);
 	void subtractQuantity(int num);
 
 	bool isEqualToItem(Item& item) const;

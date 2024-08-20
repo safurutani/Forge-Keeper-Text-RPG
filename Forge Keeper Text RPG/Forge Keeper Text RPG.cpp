@@ -14,17 +14,19 @@ int main()
     cout << "*Welcome, Forge Keeper!*\n\n*It is time to start your journey, but first what is your name*: ";
     cin >> name;
     cout << endl;
-    cout << "------------------------------------------------------------------------------" << endl;
-    cout << "------------------------------------------------------------------------------" << endl;
+    cout << "------------------------------------------------------------------------------" << endl << endl;
+
 
     Player& player = Player::getInstance();
     player.setName(name);
-    enemyCombat("HOUND", 2, 10);
+    GameManager& gameManager = GameManager::getInstance();
     /*
     introduction(player);
     learnForge();
     introTownSquare();
     */
+    player.increaseGold(400);
+    generalStore();
     return 0;
 }
 

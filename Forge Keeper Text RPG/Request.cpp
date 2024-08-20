@@ -4,6 +4,8 @@ using namespace std;
 Request::Request() {}
 Request::Request(int id, const string& person, const string& info, int gold)
 	: id(id), person(person), info(info), gold(gold), completed(false) {}
+Request::Request(int id, const string& person, const string& info, vector<Item*> reward)
+	: id(id), person(person), info(info), reward(reward), gold(0), completed(false) {}
 Request::Request(int id, const string& person, const string& info, vector<Item*> reward, int gold)
 	: id(id), person(person), info(info), reward(reward), gold(gold), completed(false) {}
 

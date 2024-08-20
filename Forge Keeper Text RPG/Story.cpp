@@ -1,6 +1,4 @@
 #include "Story.h"
-// riddle("I reveal no past, and hold no future,\nYet in the present, I'm your tutor.\nWhat am I, who shows what is real,\nBut never more than what you reveal?", "mirror", "a mirror");
-// chopTreeGame(10, 500, Item("Wood"), 10);
 using namespace std;
 GameManager& gameManager = GameManager::getInstance();
 Player& player = Player::getInstance();
@@ -90,10 +88,10 @@ void introduction(Player& player) {
 
 void learnForge() {
 	// Acquirable Items
-	Item note1 = Item("Note #1", "...BEEN SUSPICIOUS OF THEM FOR SOME TIME...\nMOST POWERFUL WEAPON...FRAGMENTED...LOST\nMOON, WIND, E...\n...DREAM... COULD BE CATASTROPHIC");
-	Item blueprint = Item("Object Blueprint", "Sandstorm Glass\nIntangible Vine\n3 Falcon Talons\nIce Mirror\nThe One Pearl\n2 Prism Shards\nSoulurite core");
-	Weapon woodHammer = Weapon("Wood Hammer", 1);
-	Weapon newHammer = Weapon("Stone Hammer", 2);
+	Item note1("Note #1", "...BEEN SUSPICIOUS OF THEM FOR SOME TIME...\nMOST POWERFUL WEAPON...FRAGMENTED...LOST\nMOON, WIND, E...\n...DREAM... COULD BE CATASTROPHIC");
+	Item blueprint("Object Blueprint", "Sandstorm Glass\nIntangible Vine\n3 Falcon Talons\nIce Mirror\nThe One Pearl\n2 Prism Shards\nSoulurite core");
+	Weapon woodHammer("Wood Hammer", 1);
+	Weapon newHammer("Stone Hammer", 2);
 
 	int choice;
 	bool allowNextScene = false;
@@ -254,8 +252,7 @@ void introTownSquare() {
 }
 
 void firstMines() {
-	Player& player = Player::getInstance();
-	Weapon pick = Weapon("Stone pickaxe", 2);
+	Weapon pick("Stone pickaxe", 2);
 	int choice;
 	cout << "*An uneven path led to a stony opening propped up by wood beams*" << endl
 		<< endl << "* Lanterns were hung at intervals *" << endl
@@ -290,7 +287,8 @@ void firstMines() {
 }
 
 void leftMines() {
-	Item fossils = Item("Fossilized creatures", "These creatures lived long before the mine was ever created");
+	gameManager.updateCheckpoint("Mines visited", true);
+	Item fossils("Fossilized creatures", "These creatures lived long before the mine was ever created");
 	int choice1;
 	do {
 		cout << "*You walk for a good stretch then find a tunnel to the left*" << endl << endl
@@ -354,10 +352,11 @@ void leftMines() {
 }
 
 void straightMines() {
+	gameManager.updateCheckpoint("Mines visited", true);
 	int choice5;
-	Item code = Item("Code #1", "2-5-7");
-	Item batwing = Item("Bat wing");
-	Item iron = Item("Iron ore");
+	Item code("Code #1", "2-5-7");
+	Item batwing("Bat wing");
+	Item iron("Iron ore");
 	Weapon bronzeSword = Weapon("Bronze sword", 3);
 	cout << "*You continue on for some time and are met with another junction*" << endl;
 	do {
@@ -418,7 +417,8 @@ void straightMines() {
 }
 
 void rightMines() {
-	Item code = Item("Code #1", "2-5-7");
+	gameManager.updateCheckpoint("Mines visited", true);
+	Item code("Code #1", "2-5-7");
 	int choice8;
 	cout << "*There's not much to see so far. That is until...*" << endl
 		<< "*You look up and see gold ore sparkling*" << endl
@@ -485,8 +485,8 @@ void rightMines() {
 }
 
 void firstForest() {
-	Weapon axe = Weapon("Stone axe", 2);
-	Item wood = Item("Wood");
+	Weapon axe("Stone axe", 2);
+	
 	int choice10;
 	int treesChopped = 0;
 	cout << "*You head over to the forest thick with trees*" << endl
@@ -519,65 +519,10 @@ void firstForest() {
 				cin >> choice11;
 				switch (choice11) {
 				case 1:
-					int choice12;
-					int choice13;
-					cout << "*You don't get too far down the path until you hear someone repeating, \"Someone? Please? Help!\"*" << endl
-						<< "*As the call gets louder you eventually see a gnome trapped in a hole*" << endl
-						<< "1) Free the gnome" << endl
-						<< "2) Bury the gnome" << endl
-						<< "3) Continue on your way" << endl << endl
-						<< "Choice: ";
-					cin >> choice12;
-					switch (choice12) {
-					case 1:
-						cout << "*You reach into the hole and scoop out the gnome*" << endl
-							<< "*He thanks you kindly and slips you a few coins before scurrying away*" << endl;
-						player.increaseGold(10);
-							clickToContinue();
-						break;
-					case 2:
-						cout << "*A lump of dirt sits off to the side*" << endl
-							<< "*You wrap your arms around it and slide it over the hole*" << endl
-							<< "*The gnome cries out. Packing the dirt down, the cries became muffled*" << endl;
-						clickToContinue();
-						break;
-					default: 
-						break;
-					}
-					do {
-						cout << "*You continue to weave your way through the densely packed forest*" << endl
-							<< "*In the distance you spot a dilapidated hut*" << endl
-							<< "1) Enter the hut" << endl
-							<< "2) Look around the outside of the hut" << endl
-							<< "3) Go Back" << endl << endl
-							<< "Choice: ";
-						cin >> choice13;
-						switch (choice13) {
-						case 1:
-							int choice14;
-							cout << "*You are drawn to the sad looking fireplace*" << endl
-								<< "*You put your hands up to it - there's a faint warmth still there*" << endl
-								<< "*Off to the side there's a stack of wood*" << endl
-								<< "1) Take wood" << endl
-								<< "2) Leave wood" << endl << endl
-								<< "Choice: ";
-							cin >> choice14;
-							if (choice14 == 1) {
-								player.addItem(&wood, 6);
-							}
-							cout << "*You turn your gaze towards the table*" << endl
-								<< "*There is a piece of paper with a few lines of writing*" << endl;
-							clickToContinue("read the paper");
-							break;
-						case 2:
-							break;
-						default:
-							break;
-						}
-					} while (choice13 != 3);
-					
+					followPath();
 					break;
-				case 2:
+				case 2:	
+					goOffPath();
 					break;
 				default:
 					break;
@@ -591,24 +536,256 @@ void firstForest() {
 		}
 	} while (choice10 != 3);
 }
-	
-void gnomeInteraction() {
-	int choice;
-	cout << "Choice: ";
-	cin >> choice;
-	switch (choice) {
+
+void followPath() {
+	gameManager.updateCheckpoint("Forest visited", true);
+	int choice13;
+	Item wood("Wood");
+	Item mirror("Ice Mirror");
+	Item leather("Leather");
+	Item mushroom("Mushroom");
+	Item rope("Rope");
+	gnomeInteraction();
+	do {
+		cout << "*You continue to weave your way through the densely packed forest*" << endl
+			<< "*In the distance you spot a dilapidated hut*" << endl
+			<< "1) Enter the hut" << endl
+			<< "2) Look around the outside of the hut" << endl
+			<< "3) Go Back" << endl << endl
+			<< "Choice: ";
+		cin >> choice13;
+		switch (choice13) {
+		case 1:
+			int choice14;
+			int choice15;
+			cout << "*You are drawn to the sad looking fireplace*" << endl
+				<< "*You put your hands up to it - there's a faint warmth still there*" << endl
+				<< "*Off to the side there's a stack of wood*" << endl
+				<< "1) Take wood" << endl
+				<< "2) Leave wood" << endl << endl
+				<< "Choice: ";
+			cin >> choice14;
+			if (choice14 == 1) {
+				player.addItem(&wood, 6);
+			}
+			cout << "*You turn your gaze towards the table*" << endl
+				<< "*There is a piece of paper with a few lines of writing*" << endl;
+			clickToContinue("read the paper");
+			riddle("I reveal no past, and hold no future,\nYet in the present, I'm your tutor.\nWhat am I, who shows what is real,\nBut never more than what you reveal?", "mirror", "a mirror");
+			cout << "*A sparkly sound emits from the oval mirror hanging above the fireplace*" << endl
+				<< "*It swings open on its left hinges to reveal something inside*" << endl;
+			clickToContinue("get closer");
+			cout << "*As you inch closer, you can see a bright, light blue glow*" << endl
+				<< "*In the hidden compartment was a frosted handheld mirror*" << endl
+				<< "*The icy frame encases the glass but does not overtake it*" << endl
+				<< "\"This is definitely the ice mirror from that blueprint!\"" << endl;
+			clickToContinue("store the mirror");
+			player.addItem(&mirror, 1);
+
+			cout << "*As soon as you stash the mirror, you turn to find someone standing at the door*" << endl << endl
+				<< "What are you doing here? I thought only I knew of this little place." << endl;
+			clickToContinue("answer");
+			cout << "\"I'm the new forge keeper, I was just looking for materials.\"" << endl << endl
+				<< "It didn't seem like you were from here. But a forge keeper you say? Do you think you can help me?" << endl;
+			clickToContinue("keep listening");
+			cout << "You see, I'm from the Thornweave Tribe, but I got left behind." << endl
+				<< "I've tried following the direction we were already headed but" << endl
+				<< "there's a group of sand serpents that I haven't been able to get past." << endl
+				<< "If I get too close, they start spitting venom at me." << endl
+				<< "Could you make me a weapon that I could use to take them out?" << endl
+				<< "1) Accept" << endl
+				<< "2) Ignore" << endl
+				<< "3) Refuse" << endl << endl
+				<< "Choice: ";
+			cin >> choice15;
+			switch (choice15) {
+			case 1:
+				cout << "Thank you! I would be most grateful." << endl;
+				if (!gameManager.checkpoints["Firewood taken"]) {
+					cout << "I've got some extra wood by the fireplace if you need it." << endl;
+					clickToContinue("accept");
+					player.addItem(&wood, 6);
+					cout << "Oh and I've got some leather on me that you could probably use too!" << endl;
+					clickToContinue("accept");
+					player.addItem(&leather, 4);
+				}
+				break;
+			case 2:
+				cout << "Well I'll put up a request in town in case you change your mind." << endl;
+				gameManager.addRequestById(2);
+				break;
+			case 3:
+				cout << "I understand. I wouldn't help some random stranger either." << endl;
+				gameManager.updateCheckpoint("Nomad request refused", true);
+				break;
+			default:
+				break;
+			}
+			break;
+		case 2:
+			cout << "*You scout the perimeter for anything useful*" << endl
+				<< "*A couple of pieces of rope were left hanging around a post*" << endl
+				<< "*The quality wasn't anything spectacular but it is free*" << endl;
+			clickToContinue("take the rope");
+			player.addItem(&rope, 2);
+			cout << "*Rounding the corner, it was a bit muddy and quite grassy*" << endl
+				<< "*Next to a puddle sprouts a cluster of mushrooms*" << endl;
+			clickToContinue("take the mushrooms");
+			player.addItem(&mushroom, 5);
+			cout << "*There didn't seem to be much left around the hut*" << endl;
+			break;
+		default:
+			break;
+		}
+	} while (choice13 != 3);
+}
+
+void goOffPath() {
+	gameManager.updateCheckpoint("Forest visited", true);
+	bool inCursedClearing = true;
+	int choice16;
+	int offering;
+	Item teeth("Hound Teeth");
+	Item steel("Steel");
+	cout << "*You meander in what feels like a good direction away from the path*" << endl
+		<< "*As you head deeper into the forest, the foliage blocks out more of the sun*" << endl
+		<< "*There is an opening ahead, yet it is still dark*" << endl
+		<< "*The blackened bark of the circle of dead trees stretch over to form a canopy of dead branches*" << endl;
+	clickToContinue();
+	do {
+		cout << "*In the center there is a stone altar that used to have a rune but has been scratched out*" << endl
+			<< "1) Touch the altar" << endl
+			<< "2) Make an offering" << endl
+			<< "3) Keep exploring" << endl << endl
+			<< "Choice: ";
+		cin >> choice16;
+		switch (choice16) {
+		case 1:
+			cout << "*You reach out your hand and feel the smooth, cold stone*" << endl
+				<< "*You are overtaken by a vision*" << endl
+				<< "*You reach out your hand and feel the smooth, cold stone*" << endl
+				<< "*You are overtaken by a vision*" << endl;
+			clickToContinue();
+			cout << "*There is a sharp sound of metal being unsheathed*" << endl
+				<< "*The weapon lay dripping in blood with the fiery glow of the forge in the background*" << endl;
+			clickToContinue();
+			cout << "*Metallic clinking rings in your ears as gold coins fall*" << endl
+				<< "*They melt into a singular mass forming some unknown shape*" << endl;
+			clickToContinue();
+			cout << "*A pulse of bright light emanates from something you can't quite tell what it is*" << endl
+				<< "*Hushed chants repeatedly play in your ears *" << endl;
+			clickToContinue();
+			cout << "*All of the images blur together at once before getting pulled into darkness*" << endl;
+			break;
+		case 2:
+			cout << "What will you offer?" << endl
+				<< "1) Health (30hp)" << endl
+				<< "2) Gold" << endl
+				<< "3) An Item" << endl << endl
+				<< "Choice: ";
+			cin >> offering;
+			altarOffering(offering);
+			break;
+		case 3:
+			inCursedClearing = false;
+			break;
+		default:
+			break;
+		}
+	} while (inCursedClearing);
+	cout << "*You keep going in what you think is the original direction*" << endl
+		<< "*A snarl stops you in your tracks*" << endl;
+	enemyCombat("SHADOW HOUND", 10, 30);
+	player.addItem(&teeth, 6);
+	cout << "\"That could've been bad.\"" << endl
+		<< "The hound seemed to be guarding something inside this tree." << endl;
+	clickToContinue("look in the tree");
+	cout << "*A modest pile of gold and 5 steel bars were left*" << endl;
+	clickToContinue("take the items");
+	player.increaseGold(50);
+	player.addItem(&steel, 5);
+}
+
+void altarOffering(int offering) {
+	Weapon tome("Magical Tome", 6);
+	HealingItem potion("Health Potion", 30);
+	Item iron("Iron");
+	Item steel("Steel");
+
+	int gold;
+	bool goldOffered = false;
+	int itemSacrifice;
+	switch (offering) {
 	case 1:
-		cout << "You reach into the hole and scoop out the gnome." << endl
-			<< "He thanks you kindly and slips you a few coins before scurrying away" << endl;
+		cout << "*You grab your axe and slash your hand, dripping the blood over the altar*" << endl
+			<< "*A path reveals itself and leads you to a hidden cache*" << endl
+			<< "*Inside you find a magical tome*" << endl;
+		player.addItem(&tome, 1);
 		break;
 	case 2:
-		cout << "Continuing down the path, you see a little hut in the clearing.\n1) Enter the hut\n2) Look around the outside of the hut\n3) Keep exploring" << endl;
+		while (!goldOffered) {
+			cout << "How much gold will you offer?" << endl
+				<< "You have " << player.getGold() << " gold." << endl << endl
+				<< "Gold to sacrifice: ";
+			cin >> gold;
+			if (gold < 1 || gold > player.getGold()) {
+				cout << "Invalid amount";
+			}
+			else {
+				cout << "*You neatly stack the coins on the altar*" << endl
+					<< "*Your offer is accepted and the coins vanish before your eyes*" << endl;
+				player.decreaseGold(gold);
+				if (gold <= 10) {
+					player.addItem(&potion, 1);
+				}
+				else if (gold <= 20) {
+					player.addItem(&iron, 4);
+				}
+				else {
+					player.addItem(&steel, 4);
+				}
+				goldOffered = true;
+			}
+			
+		}
 		break;
 	case 3:
-		cout << "A lump of dirt sits off to the side." << endl
-			<< "You wrap your arms around it and slide it over the hole." << endl
-			<< "The gnome cries out.\nPacking the dirt down, the cries became muffled and you went on your way." << endl
-			<< "Later down the path a wizard calls you over." << endl;
+		player.displayInventory();
+		cout << "Choose an item to sacrifice: ";
+		cin >> itemSacrifice;
+		cout << "*You put the " << player.getInventory()[itemSacrifice - 1]->getName() << " on the stone*" << endl
+			<< "*After a moment the item levitates and shakes violently*" << endl
+			<< "*You start to see after images of it until it settles*" << endl << endl
+			<< "*There are now double of the " << player.getInventory()[itemSacrifice - 1]->getName() << " lying in front of you*" << endl;
+		player.addItem(player.getInventory()[itemSacrifice - 1], player.getInventory()[itemSacrifice - 1]->getQuantity());
+		player.displayInventory();
+		break;
+	default:
+		break;
+	}
+}
+
+void gnomeInteraction() {
+	int choice12;
+	cout << "*You don't get too far down the path until you hear someone repeating, \"Someone? Please? Help!\"*" << endl
+		<< "*As the call gets louder you eventually see a gnome trapped in a hole*" << endl
+		<< "1) Free the gnome" << endl
+		<< "2) Bury the gnome" << endl
+		<< "3) Continue on your way" << endl << endl
+		<< "Choice: ";
+	cin >> choice12;
+	switch (choice12) {
+	case 1:
+		cout << "*You reach into the hole and scoop out the gnome*" << endl
+			<< "*He thanks you kindly and slips you a few coins before scurrying away*" << endl;
+		player.increaseGold(10);
+		clickToContinue();
+		break;
+	case 2:
+		cout << "*A lump of dirt sits off to the side*" << endl
+			<< "*You wrap your arms around it and slide it over the hole*" << endl
+			<< "*The gnome cries out. Packing the dirt down, the cries became muffled*" << endl;
+		clickToContinue();
 		break;
 	default:
 		break;
@@ -617,5 +794,54 @@ void gnomeInteraction() {
 }
 
 void firstGeneralStore() {
+	cout << "*You walk past several townsfolk and into the General Store*" << endl
+		<< "It's a pleasure to see a new face in town!" << endl
+		<< "My name is Bart and if you play your part, you'll win my heart." << endl
+		<< "Just kidding. I'm married, to the mart." << endl
+		<< "Take a look at what I sell, when you're ready, ring the bell." << endl;
+	clickToContinue("look at the items for sale");
+	generalStore();
+}
 
+void generalStore() {
+	int itemChoice;
+	do {
+		gameManager.displayGeneralStore();
+		cout << "Gold: " << player.getGold() << endl << endl
+			<< "What item would you like to purchase?" << endl << endl
+			<< "Choice: ";
+		cin >> itemChoice;
+		purchase(itemChoice - 1);
+
+	} while (itemChoice != 0);
+	
+
+}
+
+void purchase(int index) {
+	if (index >= gameManager.generalStoreItems.size()) {
+		cerr << "Invalid index" << endl;
+	}
+	auto it = gameManager.generalStoreItems.begin();
+	// Moves iterator to given index
+	advance(it, index);
+	Item* item = it->first;
+	int price = it->second;
+
+	// Check store inventory
+	if (item->getQuantity() <= 0){
+		cout << "Out of stock" << endl;
+		gameManager.generalStoreItems.erase(it);
+	}
+	// Check player's gold
+	else if (player.getGold() < price) {
+		cout << "Not enough gold" << endl;
+	}
+	// Go through with purchase
+	else {
+		player.decreaseGold(price);
+		player.addItem(item, 1);
+		player.displayInventory();
+		item->subtractQuantity(1);
+	}
 }
