@@ -11,7 +11,7 @@ RequestBoard& RequestBoard::getInstance() {
 }
 
 void RequestBoard::getRequests() const {
-	for (const Request req : requests) {
+	for (const Request& req : requests) {
 		req.displayRequest();
 	}
 }

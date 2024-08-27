@@ -28,3 +28,4 @@ void altarOffering(int);
 void firstGeneralStore();
 void generalStore();
 void purchase(int);
+void forge();

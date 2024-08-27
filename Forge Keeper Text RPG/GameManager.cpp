@@ -17,8 +17,6 @@ GameManager::GameManager() : player(Player::getInstance()), requestBoard(Request
 		{"Firewood taken", false},
 		{"Nomad request refused", false},
 	};
-	requestBoard.addRequest(Request(1, "Sir Henry of the Terra Guard",
-		"We also have a resident merchant who can sell you finished goods at the General Store, but the raw materials you'll have to source yourself.\n", 100));
 	setMasterRequests();
 
 	// Stock the general store
@@ -75,7 +73,7 @@ void GameManager::addRequestById(int id) {
 
 void GameManager::setMasterRequests() {
 	masterRequests.push_back(Request(1, "Sir Henry of the Terra Guard",
-		"We also have a resident merchant who can sell you finished goods at the General Store, but the raw materials you'll have to source yourself.\n", 100));
+		"", 100));
 	Item thorns("Thorns", 8);
 	masterRequests.push_back(Request(2, "Thornweave Tribesman",
 		"There's a group of sand serpents that I haven't been able to get past.\nIf I get too close, they start spitting venom at me.\nCould you make me a weapon that I could use to take them out?\n", { &thorns }, 50));

@@ -20,13 +20,11 @@ int main()
     Player& player = Player::getInstance();
     player.setName(name);
     GameManager& gameManager = GameManager::getInstance();
-    /*
-    introduction(player);
-    learnForge();
+    
+    //introduction(player);
+    //learnForge();
     introTownSquare();
-    */
-    player.increaseGold(400);
-    generalStore();
+    forge();
     return 0;
 }
 

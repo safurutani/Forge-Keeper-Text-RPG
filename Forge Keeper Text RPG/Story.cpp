@@ -211,14 +211,14 @@ void introTownSquare() {
 	bool allowNextChapter = false;
 	cout << "I hope the forge was up to your standards." << endl << endl 
 		<< "Now I want to introduce you to the Request Board." << endl 
-		<< "The townsfolk will post their ads here and anyone can fulfill them to obtain the listed reward" << endl
+		<< "The townsfolk will post their ads here and anyone can fulfill them to obtain the listed reward." << endl
 		<< "Seems like there's only one at the moment. All sorts of people pass through here during their travels." << endl
 		<< "Perhaps now that the forge is up and running again, they'll stay longer and give you their patronage." << endl;
 	clickToContinue("look at Request Board");
 	RequestBoard& requestBoard = RequestBoard::getInstance();
 	requestBoard.getRequests();
 	clickToContinue();
-	cout << "We also have a resident merchant who can sell you finished goods at the General Store" << endl
+	cout << "We also have a resident merchant who can sell you finished goods at the General Store," << endl
 		<< "but the raw materials you'll have to source yourself." << endl << endl
 		<< "Now I know the materials in the forge are sparse." << endl
 		<< "So why don't you head over to either the mines or forest." << endl
@@ -227,7 +227,7 @@ void introTownSquare() {
 		cout << endl << "1) Go to mines" << endl
 			<< "2) Go to forest" << endl
 			<< "3) Visit General Store" << endl 
-			<< "4) Return to forge" << endl << endl
+			<< "4) Go back to forge" << endl << endl
 			<< "Choice: ";
 		cin >> choice;
 		switch (choice) {
@@ -241,16 +241,23 @@ void introTownSquare() {
 			firstGeneralStore();
 			break;
 		case 4:
-			// need frost mirror
+			if (gameManager.checkpoints["Mines visited"] && gameManager.checkpoints["Forest visited"]) {
+				allowNextChapter = true;
+			}
+			else {
+				cout << "I should at least visit both the mines and forest." << endl;
+			}
 			break;
 		default:
 			break;
 		}
+		
 	} while (!allowNextChapter);
 		
 	
 }
 
+// MINES
 void firstMines() {
 	Weapon pick("Stone pickaxe", 2);
 	int choice;
@@ -484,6 +491,7 @@ void rightMines() {
 	}
 }
 
+// FOREST
 void firstForest() {
 	Weapon axe("Stone axe", 2);
 	
@@ -793,6 +801,7 @@ void gnomeInteraction() {
 
 }
 
+// STORE
 void firstGeneralStore() {
 	cout << "*You walk past several townsfolk and into the General Store*" << endl
 		<< "It's a pleasure to see a new face in town!" << endl
@@ -811,10 +820,14 @@ void generalStore() {
 			<< "What item would you like to purchase?" << endl << endl
 			<< "Choice: ";
 		cin >> itemChoice;
+		if (itemChoice == 0) {
+			return;
+		}
 		purchase(itemChoice - 1);
+		clearConsole();
 
 	} while (itemChoice != 0);
-	
+	return;
 
 }
 
@@ -844,4 +857,45 @@ void purchase(int index) {
 		player.displayInventory();
 		item->subtractQuantity(1);
 	}
+}
+
+void forge() {
+	cout << "Welcome to your forge" << endl
+		<< "---------------------" << endl;
+	int selection;
+	do {
+		cout << "1) Smelt ore" << endl
+			<< "2) Forge a sword" << endl
+			<< "3) Forge a spear" << endl
+			<< "4) Forge a bow and arrow" << endl
+			<< "5) Forge a battleaxe" << endl
+			<< "6) Forge a mace" << endl
+			<< "7) Forge a boomerang" << endl
+			<< "8) Forge a staff" << endl
+			<< "9) Forge shurikens" << endl << endl
+			<< "Choice: ";
+		cin >> selection;
+		switch (selection) {
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5: 
+			break;
+		case 6: 
+			break;
+		case 7: 
+			break;
+		case 8: 
+			break;
+		case 9: 
+			break;
+		default:
+			break;
+		}
+	} while (selection != 0);
 }
