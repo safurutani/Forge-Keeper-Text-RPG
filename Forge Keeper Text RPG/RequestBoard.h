@@ -15,5 +15,6 @@ public:
 	void getRequests() const;
 	void addRequest(Request);
 	void removeRequest(int);
+	Request getRequest(int);
 };
 

@@ -3,6 +3,7 @@
 Item::Item() : name(""), quantity(1), description("") {}
 Item::Item(const string& name) : name(name), quantity(1), description("") {}
 Item::Item(const string& name, int qty) : name(name), quantity(qty) {}
+Item::Item(const string& name, int qty, vector<pair<string, int>> recipe) : name(name), quantity(qty), recipe(recipe) {}
 Item::Item(const string& name, const string& description) 
 	: name(name), quantity(1), description(description) {}
 Item::Item(const string& name, const string& description, int qty)

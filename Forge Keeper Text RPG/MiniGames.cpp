@@ -248,27 +248,13 @@ bool enemyCombat(string name, int dmg, int hp) {
     int num = 1;
     int choice;
     int healChoice;
-    vector<Weapon*> weapList;
 
-    Weapon* weapChoice;
     cout << endl << name << " ENCOUNTER" << endl
         << string(name.size() + 10, '-') << endl;
-
-    // List weapons to choose from
-    for (Item* item : player.getInventory()) {
-        // Attempt dynamic cast of item into a weapon
-        Weapon* weap = dynamic_cast<Weapon*>(item);
-        // Weap will be non null
-        if (weap) {
-            cout << num << ") " << left << setw(20) << weap->getName() 
-                << "    " << "Dmg: " << weap->getDamage() << endl;
-            weapList.push_back(weap);
-            num++;
-        }
+    Weapon* weapChoice = player.chooseWeapon();
+    if (weapChoice == nullptr) {
+        return false;
     }
-    cout << "Choose a weapon: ";
-    cin >> choice;
-    weapChoice = weapList.at(choice - 1);
     do {
         int action;
         bool turnOver = false;

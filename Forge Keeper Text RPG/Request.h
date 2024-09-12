@@ -18,5 +18,6 @@ public:
 	void displayRequest() const;
 	void markComplete();
 	int getId() const;
+	string getInfo() const;
 };
 

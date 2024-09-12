@@ -10,13 +10,9 @@ Request::Request(int id, const string& person, const string& info, vector<Item*>
 	: id(id), person(person), info(info), reward(reward), gold(gold), completed(false) {}
 
 void Request::displayRequest() const {
-	int i = 0;
 	int lines = info.length() / 50;
 	cout << person << endl << endl;
-	while (i < lines) {
-		cout << info.substr(i, 50) << endl;
-		i++;
-	}
+	cout << info << endl;
 	cout << endl << "Reward: ";
 	for (Item* r : reward) {
 		cout << "        " << r->getQuantity() << " " << r->getName() << endl;
@@ -33,4 +29,8 @@ void Request::markComplete() {
 
 int Request::getId() const {
 	return id;
+}
+
+string Request::getInfo() const {
+	return info;
 }

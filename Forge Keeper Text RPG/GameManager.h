@@ -1,5 +1,6 @@
 #pragma once
 #include "RequestBoard.h"
+#include "Recipes.h"
 #include <map>
 using namespace std;
 
@@ -17,6 +18,14 @@ public:
 	void stockGeneralStore();
 	void addRequestById(int id);
 	void displayGeneralStore();
+
+	void completeKightRequest();
+	void completeNomadRequest();
+	void completeSamuraiRequest();
+	void completePirateRequest();
+	void completeAristocratRequest();
+	void completeWizardRequest();
+
 	GameManager(const GameManager&) = delete;
 	GameManager& operator=(const GameManager&) = delete;
 
@@ -28,4 +37,5 @@ public:
 	Weapon* ironSword;
 	Item* leather;
 	HealingItem* potion;
+	map<int, Weapon*> weaponList;
 };

@@ -227,7 +227,8 @@ void introTownSquare() {
 		cout << endl << "1) Go to mines" << endl
 			<< "2) Go to forest" << endl
 			<< "3) Visit General Store" << endl 
-			<< "4) Go back to forge" << endl << endl
+			<< "4) Go to forge" << endl 
+			<< "5) Look at Request Board" << endl << endl
 			<< "Choice: ";
 		cin >> choice;
 		switch (choice) {
@@ -241,8 +242,8 @@ void introTownSquare() {
 			firstGeneralStore();
 			break;
 		case 4:
-			if (gameManager.checkpoints["Mines visited"] && gameManager.checkpoints["Forest visited"]) {
-				allowNextChapter = true;
+			if (gameManager.checkpoints["Mines visited"] || gameManager.checkpoints["Forest visited"]) {
+				Weapon::forge();
 			}
 			else {
 				cout << "I should at least visit both the mines and forest." << endl;
@@ -393,7 +394,7 @@ void straightMines() {
 			if (choice6 == 1) {
 				cout << "*Out of nowhere, a frost bat whizzes at you*" << endl;
 				// enemy combat minigame
-				if (enemyCombat) {
+				if (enemyCombat("FROST BAT", 1, 5)) {
 					int choice7;
 					cout << "*The bat lay lifeless on the floor*" << endl
 						<< "1) Take the bat's wings and continue" << endl
@@ -859,43 +860,3 @@ void purchase(int index) {
 	}
 }
 
-void forge() {
-	cout << "Welcome to your forge" << endl
-		<< "---------------------" << endl;
-	int selection;
-	do {
-		cout << "1) Smelt ore" << endl
-			<< "2) Forge a sword" << endl
-			<< "3) Forge a spear" << endl
-			<< "4) Forge a bow and arrow" << endl
-			<< "5) Forge a battleaxe" << endl
-			<< "6) Forge a mace" << endl
-			<< "7) Forge a boomerang" << endl
-			<< "8) Forge a staff" << endl
-			<< "9) Forge shurikens" << endl << endl
-			<< "Choice: ";
-		cin >> selection;
-		switch (selection) {
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5: 
-			break;
-		case 6: 
-			break;
-		case 7: 
-			break;
-		case 8: 
-			break;
-		case 9: 
-			break;
-		default:
-			break;
-		}
-	} while (selection != 0);
-}

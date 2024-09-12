@@ -13,10 +13,12 @@ private:
 	string name;
 	int quantity;
 	string description;
+	vector<pair<string, int>> recipe;
 public:
 	Item();
 	Item(const string& name);
 	Item(const string& name, int qty);
+	Item(const string& name, int qty, vector<pair<string, int>> recipe);
 	Item(const string& name, const string& description);
 	Item(const string& name, const string& description, int qty);
 	virtual ~Item() = default;

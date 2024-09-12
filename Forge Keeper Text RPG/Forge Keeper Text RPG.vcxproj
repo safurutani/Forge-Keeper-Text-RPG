@@ -133,9 +133,9 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="MiniGames.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Recipes.cpp" />
     <ClCompile Include="Request.cpp" />
     <ClCompile Include="RequestBoard.cpp" />
-    <ClCompile Include="Recipes.cpp" />
     <ClCompile Include="Story.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>

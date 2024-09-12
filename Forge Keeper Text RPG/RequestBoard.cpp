@@ -2,14 +2,19 @@
 RequestBoard* RequestBoard::instance = nullptr;
 
 RequestBoard::RequestBoard() {
-	requests.push_back(Request(1, "Sir Henry of the Terra Guard",
-		"I have shattered my previous blade in a duel and need to restore my honor.\nI need a blade much stronger than the copper one I once wielded.\n", 100));
 }
 RequestBoard& RequestBoard::getInstance() {
 	static RequestBoard instance;
 	return instance;
 }
 
+Request RequestBoard::getRequest(int id) {
+	for (const auto& request : requests) {
+		if (request.getId() == id) {
+			return request;
+		}
+	}
+}
 void RequestBoard::getRequests() const {
 	for (const Request& req : requests) {
 		req.displayRequest();

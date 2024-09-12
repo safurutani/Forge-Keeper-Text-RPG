@@ -9,6 +9,7 @@
 #include <vector>
 #include <cctype>
 #include <iomanip>
+#include "Recipes.h"
 
 void clearConsole();
 void clickToContinue(string singleOption = "continue");
@@ -28,4 +29,3 @@ void altarOffering(int);
 void firstGeneralStore();
 void generalStore();
 void purchase(int);
-void forge();
